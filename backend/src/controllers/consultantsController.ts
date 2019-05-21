@@ -45,6 +45,7 @@ export class ConsultantsController {
 
   @Delete("/consultants/:id")
   public deleteConsultant(@Param("id") id: string) {
+    this.consultantService.deleteConsultantById(id);
     return {
       message: `Delete consultant with id: ${id}`
     };

@@ -3,7 +3,7 @@
 
 
   <mat-card-title>&nbsp;All Consultants</mat-card-title>
-  <div *ngIf="consultants$ | async as consultants else loading">
+  <!-- <div *ngIf="consultants$ | async as consultants else loading"></div> -->
   <div>
     <mat-form-field>
       <input
@@ -109,7 +109,7 @@
 No results found!
   </div>
 
-</div>
+
   <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   <ng-template #loading>
       <div class="loading-spinner-container">
@@ -118,4 +118,4 @@ No results found!
     </ng-template>
 </mat-card>
 
-<button (click)="createConsultant()" mat-raised-button>NEw boy</button>
+<!-- <button (click)="createConsultant()" mat-raised-button>NEw boy</button> -->

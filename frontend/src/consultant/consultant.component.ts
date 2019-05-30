@@ -106,7 +106,7 @@ export class ConsultantComponent implements OnInit {
         this.snackbar.open("Removed from Team", "", {
           duration: 3000,
           verticalPosition: "top",
-          panelClass: ["green-snackbar"]
+          panelClass: ["red-snackbar"]
         });
         this.updateConsultants();
       },

@@ -57,14 +57,16 @@ export class ConsultantComponent implements OnInit {
       this.dataSource.data = results;
     });
     this.loggedInUserSub = this.authService.getUser().subscribe(result => {
-      this.userId = result._id;
+      if (result) {
+        this.userId = result._id;
+      }
     });
   }
 
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
-    this.loggedInUserSub && this.loggedInUserSub.unsubscribe();
+    // this.loggedInUserSub && this.loggedInUserSub.unsubscribe();
     this.consultantsSub && this.consultantsSub.unsubscribe();
   }
 
@@ -87,16 +89,16 @@ export class ConsultantComponent implements OnInit {
           verticalPosition: "top",
           panelClass: ["green-snackbar"]
         });
-        this.updateConsultants();
       },
-      err => {
-        this.snackbar.open(err.message, "", {
-          duration: 3000,
-          verticalPosition: "top"
-        });
-        this.updateConsultants();
-      }
+      // err => {
+      //   this.snackbar.open(err.message, "", {
+      //     duration: 3000,
+      //     verticalPosition: "top"
+      //   });
+      // }
     );
+    this.updateConsultants();
+
   }
 
   removeFromTeam(e: Event, consultant: Consultant): void {
@@ -105,19 +107,19 @@ export class ConsultantComponent implements OnInit {
       () => {
         this.snackbar.open("Removed from Team", "", {
           duration: 3000,
-          verticalPosition: "top",
-          panelClass: ["red-snackbar"]
-        });
-        this.updateConsultants();
-      },
-      err => {
-        this.snackbar.open(err.message, "", {
-          duration: 3000,
           verticalPosition: "top"
+          // panelClass: ["red-snackbar"]
         });
-        this.updateConsultants();
-      }
+      },
+      // err => {
+      //   this.snackbar.open(err.message, "", {
+      //     duration: 3000,
+      //     verticalPosition: "top"
+      //   });
+      // }
     );
+    this.updateConsultants();
+
   }
 
   goToConsultant(consultant: Consultant): void {

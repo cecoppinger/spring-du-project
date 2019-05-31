@@ -46,5 +46,10 @@
         Remove From Team
       </button>
     </mat-card-actions>
+    <mat-card-actions *ngIf="!consultant.teamManager" class="center">
+      <button class="button-grey" mat-raised-button (click)="addToTeam()">
+        Add to Team
+      </button>
+    </mat-card-actions>
   </mat-card>
 </div>

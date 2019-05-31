@@ -38,9 +38,11 @@ export class UserComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getUser();
-    this.userSub = this.user$.subscribe(user => {
-      this.dataSource.data = user.consultants;
+    // this.getUser();
+    this.userSub = this.authService.getUser().subscribe(user => {
+      if (user) {
+        this.dataSource.data = user.consultants;
+      }
     });
     this.dataSource.sort = this.sort;
   }
@@ -59,8 +61,8 @@ export class UserComponent implements OnInit {
 
   removeFromTeam(e: Event, consultant: Consultant): void {
     e.stopPropagation();
-    this.userService.removeConsultant(consultant).subscribe(
-      user => {
+    this.userService.removeConsultant(consultant).subscribe(user => {
+      if (user) {
         this.consultants = user.consultants;
         this.dataSource.data = this.consultants;
         console.log(this.consultants);
@@ -70,14 +72,8 @@ export class UserComponent implements OnInit {
           verticalPosition: "top",
           panelClass: ["red-snackbar"]
         });
-      },
-      err => {
-        this.snackbar.open(err.message, "", {
-          duration: 3000,
-          verticalPosition: "top"
-        });
       }
-    );
+    });
   }
 
   private noResults$ = new Subject<boolean>();

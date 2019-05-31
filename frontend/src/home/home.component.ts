@@ -24,7 +24,7 @@ export class HomeComponent {
     if (this.credentials.username && this.credentials.password) {
       try {
         await this.authService.login(this.credentials);
-        this.router.navigate(["consultants"]);
+        this.router.navigate(["user"]);
       } catch (e) {
         this.snackBar.open("Invalid Login", "", {
           duration: 3000,

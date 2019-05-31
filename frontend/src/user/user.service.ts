@@ -63,14 +63,16 @@ export class UserService {
   public removeConsultant(consultant: Consultant) {
     return this.user$.pipe(
       map((user: User) => {
-        user.consultants.splice(this.findConsultant(consultant._id), 1);
-        this.localStorage.setItem("user", JSON.stringify(user));
-        this.http
-          .put<User>(
-            `/api/users/remove/${user._id}?consultantId=${consultant._id}`,
-            {}
-          )
-          .subscribe();
+        if (user) {
+          user.consultants.splice(this.findConsultant(consultant._id), 1);
+          this.localStorage.setItem("user", JSON.stringify(user));
+          this.http
+            .put<User>(
+              `/api/users/remove/${user._id}?consultantId=${consultant._id}`,
+              {}
+            )
+            .subscribe();
+        }
         return user;
       })
     );
@@ -80,7 +82,7 @@ export class UserService {
     return this.http.post<User>("/api/users", user);
   }
 
-  private findConsultant(consultantId: string) {
+  private findConsultant(consultantId: string): number {
     let user = this.authService.getUserFromLocalStorage();
     let idx: number;
     idx = user.consultants.findIndex(el => el._id === consultantId);

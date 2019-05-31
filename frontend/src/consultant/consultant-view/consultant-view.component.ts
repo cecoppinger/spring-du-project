@@ -3,7 +3,7 @@ import { Observable, Subscription } from "rxjs";
 import { Consultant } from "../consultant";
 import { ConsultantService } from "../consultant.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { MatDialog } from "@angular/material";
+import { MatDialog, MatSnackBar } from "@angular/material";
 import { CommentComponent } from "../comment/comment.component";
 import { ConsultantComment } from "../comment";
 import { DeleteComponent } from "../delete/delete.component";
@@ -29,7 +29,8 @@ export class ConsultantViewComponent implements OnInit {
     private consultantService: ConsultantService,
     public dialog: MatDialog,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackbar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -47,7 +48,7 @@ export class ConsultantViewComponent implements OnInit {
         this.tmId = this.consultant.teamManager._id;
       }
       this.authService.getUser().subscribe(user => {
-        if (this.tmId === user._id) {
+        if (user && this.tmId === user._id) {
           this.onTeam = true;
         }
       });
@@ -66,13 +67,24 @@ export class ConsultantViewComponent implements OnInit {
 
   removeFromTeam(consultant: Consultant) {
     let dialogRef = this.dialog.open(DeleteComponent);
-    dialogRef.afterClosed().subscribe(result=> {
-      if (result){
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
         this.userService.removeConsultant(consultant).subscribe(result => {
           this.router.navigate(["user"]);
         });
       }
-    })
+    });
+  }
+
+  addToTeam() {
+    this.userService.addConsultant(this.consultant).subscribe(() => {
+      this.snackbar.open("Added to Team", "", {
+        duration: 3000,
+        verticalPosition: "top",
+        panelClass: ["green-snackbar"]
+      });
+      this.router.navigate(["consultants"]);
+    });
   }
 
   addComment(): void {

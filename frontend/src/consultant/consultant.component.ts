@@ -106,7 +106,7 @@ export class ConsultantComponent implements OnInit {
         this.snackbar.open("Removed from Team", "", {
           duration: 3000,
           verticalPosition: "top",
-          panelClass: ["green-snackbar"]
+          panelClass: ["red-snackbar"]
         });
         this.updateConsultants();
       },
@@ -142,8 +142,6 @@ export class ConsultantComponent implements OnInit {
   public applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
-    this.noResults$.next(
-      this.dataSource.filteredData.length === 0
-    );
+    this.noResults$.next(this.dataSource.filteredData.length === 0);
   }
 }

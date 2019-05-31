@@ -59,15 +59,25 @@ export class UserComponent implements OnInit {
 
   removeFromTeam(e: Event, consultant: Consultant): void {
     e.stopPropagation();
-    this.userService.removeConsultant(consultant).subscribe(user => {
-      this.consultants = user.consultants;
-      this.dataSource.data = this.consultants;
-      this.snackbar.open("Removed from Team", "", {
-        duration: 3000,
-        verticalPosition: "top",
-        panelClass: ["green-snackbar"]
-      });
-    });
+    this.userService.removeConsultant(consultant).subscribe(
+      user => {
+        this.consultants = user.consultants;
+        this.dataSource.data = this.consultants;
+        console.log(this.consultants);
+
+        this.snackbar.open("Removed from Team", "", {
+          duration: 3000,
+          verticalPosition: "top",
+          panelClass: ["red-snackbar"]
+        });
+      },
+      err => {
+        this.snackbar.open(err.message, "", {
+          duration: 3000,
+          verticalPosition: "top"
+        });
+      }
+    );
   }
 
   private noResults$ = new Subject<boolean>();
